@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt'); // bibliothèque permettant de hacher les mots de passe.
+const jwt = require('jsonwebtoken'); // Permet de créer et vérifier des tokens d'authentification.
 
 const User = require('../models/User');
 
-// Middlewares d'authentification
+// Middlewares d'authentification.
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -64,7 +64,3 @@ function mask(email, reveal=false){
     }
     return newMail;
 }
-
-// function unmask(email){
-//     return mask(email, true);
-// }
