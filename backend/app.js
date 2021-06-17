@@ -22,7 +22,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cl
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-// Active CORS pour éviter les attaques CSRF
+// Active CORS pour éviter les attaques CSRF - sécurisation cors: origin localhost:4200
 app.use(cors({
   origin: 'http://localhost:4200'
 }));

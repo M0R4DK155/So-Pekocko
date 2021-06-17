@@ -1,9 +1,19 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// Import des modules et fichiers complémentaires
+const bcrypt = require('bcrypt'); // bibliothèque permettant de hacher les mots de passe.
+const jwt = require('jsonwebtoken'); // Permet de créer et vérifier des tokens d'authentification.
 
 const User = require('../models/User');
 
-// Middlewares d'authentification
+// Middlewares d'authentification.
+/**
+ * Enregistrement de l'utilisateur /api/auth/signup.
+ *
+ * @param   {Object}  req.body              Champs du formulaire.
+ * @param   {String}  req.body.email        Email de l'utilisateur.
+ * @param   {String}  req.body.password     Mot de passe de l'utilisateur.
+ *
+ */
+
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -17,6 +27,15 @@ exports.signup = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+/**
+ * Connecter un utilisateur - Route login /api/auth/login
+ *
+ * @param   {Object}  req.body   Champs du formulaire.
+ * @param   {String}  req.body.email   Email de l'utilisateur.
+ * @param   {String}  req.body.password  Mot de passe de l'utilisateur.
+ * 
+ */
 
 exports.login = (req, res, next) => {
   User.findOne({ email: mask(req.body.email) })
@@ -43,6 +62,14 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+/**
+ * [Masquage/Hashage de l'email]
+ * @param   {string}    email   Email de l'utilisateur.
+ * @param   {boolean}   reveal  Sur false par défaut.
+ * 
+ * @return  {String}            Adresse Email masquée.
+ */
+
 function mask(email, reveal=false){
     let newMail = "";
     let code;
@@ -64,7 +91,3 @@ function mask(email, reveal=false){
     }
     return newMail;
 }
-
-// function unmask(email){
-//     return mask(email, true);
-// }
