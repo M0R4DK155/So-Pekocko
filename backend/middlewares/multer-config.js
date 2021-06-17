@@ -20,4 +20,9 @@ const storage = multer.diskStorage({
     }
 });
 
-module.exports = multer({ storage }).single('image');           // méthode multer a laquelle on passe notre objet Storage et méthode single pour préciser un seul fichier image
+// Méthode multer à laquelle on passe notre objet Storage et méthode single pour préciser un seul fichier image
+module.exports = multer({
+  storage: storage,
+  limits: { fileSize: 2000000 } //Limite la taille du fichier à 2Mo max
+
+}).single('image');
