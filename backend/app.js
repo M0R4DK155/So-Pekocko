@@ -1,13 +1,12 @@
 const express = require('express');         // On importe Express avec la commande require.
-// const bodyParser = require('body-parser');  // Transforme le corps d'une requête en JSON (et donc en objet JS utilisable).
 const mongoose = require('mongoose');       // On importe Mongoose.
 const cors = require('cors');               // On importe Cors.
 const path = require('path');               // On importe le paquet node "path" qui donne accès au chemin du système de fichier.
 const helmet = require('helmet');           // On sécurise (un peu plus) l'appli avec.
 
+// Import des routes pour l'utilisateur et les sauces depuis le répertoire "routes".
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
-
 
 //On appelle la méthode express qui nous permet de créer une appli express.
 const app = express(); 
@@ -15,7 +14,7 @@ const app = express();
 // Sécurisation des headers
 app.use(helmet());
 
-// Connexion à la BDD MongoDB
+// Connexion à la BDD MongoDB - Pour se connecter, mongoose va aller chercher le code dans le fichie .env
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.awfya.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
