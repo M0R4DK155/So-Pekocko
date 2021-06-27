@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'); // La méthode require permet d'appeler l'utilisation de mongoose.
 
-//Schéma de données pour une sauce
+// Schéma de données qui contient les champs souhaités pour chaque sauce.
 const sauceSchema = mongoose.Schema({
   id:           { type: Object, required: false },              // Identifiant unique créé par MongoDB.
   userId:       { type: String, required: true },               // Identifiant unique MongoDB pour l'utilisateur qui a créé la sauce.
