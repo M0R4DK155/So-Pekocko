@@ -1,4 +1,4 @@
-// Fichier contenant notre logique métier
+// Fichier contenant notre logique métier.
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
@@ -10,7 +10,7 @@ const fs = require('fs');
  * @param   {String}  req.body.name             Nom de l'utlisateur.
  * @param   {String}  req.body.manufacturer     Fabricant de la sauce.
  * @param   {String}  req.body.description      Description de la sauce.
- * @param   {String}  req.body.mainPepper       Principal ingrédient de la sauce.
+ * @param   {String}  req.body.mainPepper       Ingrédient principal de la sauce.
  * @param   {String}  req.body.file.filename    Nom de la photo.
  * @param   {Number}  req.body.heat             Force de la sauce.
  * 
@@ -23,14 +23,14 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // On génère l'URL de l'image (le protocole, le nom d'hôte et le nom du fichier)
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // On génère l'URL de l'image (le protocole, le nom d'hôte et le nom du fichier).
         likes: "0",
         dislikes: "0",
         usersLiked: [`First`],
         usersDisliked: [`First`]
     });
     sauce.save()
-    .then(() => res.status(201).json({ message: 'Sauce ajoutée avec succès !' })) // Message d'alerte
+    .then(() => res.status(201).json({ message: 'Sauce ajoutée avec succès !' })) // Message d'alerte.
     .catch(error => {
         res.status(400).json({ error })
     });
@@ -57,7 +57,7 @@ exports.getAllSauces = (req, res, next) => {
  */
 
 exports.getOneSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id }) //méthode findOne de mongoose afin de récupérer l’objet unique à partir de son id
+    Sauce.findOne({ _id: req.params.id }) // Méthode findOne de mongoose afin de récupérer l’objet unique à partir de son id.
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error }));
 };
@@ -94,11 +94,11 @@ exports.deleteSauce = (req, res, next) => {
   // Avant de suppr l'objet, on va le chercher pour obtenir l'url de l'image et supprimer le fichier image de la BDD.
   Sauce.findOne({ _id: req.params.id }) //méthode findOne de mongoose afin de récupérer l’objet à partir de son id.
     .then(sauce => {
-      // Pour extraire ce fichier, on récupère l'url de la sauce, et on le split autour de la chaine de caractères, donc le nom du fichier
+      // Pour extraire ce fichier, on récupère l'url de la sauce, et on le split autour de la chaine de caractères, donc le nom du fichier.
       const filename = sauce.imageUrl.split('/images/')[1];
-      // Avec ce nom de fichier, on appelle unlink pour suppr le fichier
+      // Avec ce nom de fichier, on appelle unlink pour suppr le fichier.
       fs.unlink(`images/${filename}`, () => {
-        // On supprime le document correspondant de la base de données
+        // On supprime le document correspondant de la base de données.
         Sauce.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Sauce supprimée !' }))
           .catch(error => res.status(400).json({ error }));
